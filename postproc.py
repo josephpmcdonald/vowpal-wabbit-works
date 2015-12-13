@@ -1,7 +1,16 @@
+import sys
+
 test = open("test.dat", "r")
 pred = open("test.pred", "r")
 strvals = pred.readlines()
 n = len(strvals)
+w_bool = bool(sys.argv[1] and sys.argv[2])
+if w_bool:
+    w_pos = float(sys.argv[1])
+    w_neg = float(sys.argv[2])
+else:
+    print "input weights"
+    exit()
 
 scores = [0]*n
 for i, line in enumerate(strvals):
@@ -21,18 +30,21 @@ for i in range(n):
     p = scores[i]
     if l == 1 :
         if p > 0.5:
-            tp += 1
+            tp += w_pos
         else:
-            fn += 1
+            fn += w_pos
     else:
         if p > 0.5:
-            fp += 1
+            fp += w_neg
+        else:
+            tn += w_neg
 
-err = (fp + fn)/n
+tot = tp + fp + tn + fn
+err = (fp + fn)/tot
 pre = tp/(tp + fp)
 rec = tp/(tp + fn)
 
-print "error: ", err
+print "err: ", err
 print "pre: ", pre
 print "rec: ", rec
 
