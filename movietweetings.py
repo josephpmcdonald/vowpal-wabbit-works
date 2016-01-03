@@ -1,3 +1,4 @@
+#convert MovieTweetings format to vw format
 
 r_file = open("/scratch/MovieTweetings-master/latest/ratings.dat","r")
 w_file = open("/scratch/MovieTweetings-master/latest/ratings.vw","w")
