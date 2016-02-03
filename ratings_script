@@ -1,5 +1,10 @@
 #!/bin/bash
 
+wget -P /scratch/ http://files.grouplens.org/datasets/movielens/ml-20m.zip
+unzip ml-20m.zip
+awk -F',' 'NR > 1 { printf "%g |u %d |i %d\n",$3,$1,$2 }' ratings.csv >! ratings.vw
+python separate.py
+
 vw -b 18 -q ui --rank 10 --l2 0.001 \
   --learning_rate 0.015 --passes 10 --decay_learning_rate 0.97 --power_t 0 \
   -d /scratch/ml-20m/train.vw -f ratings.reg --cache_file ratings.cache
