@@ -1,8 +1,10 @@
 #!/bin/bash
 
+set prefix="/scratch/ml-20m/"
+
 wget -P /scratch/ http://files.grouplens.org/datasets/movielens/ml-20m.zip
-unzip ml-20m.zip
-awk -F',' 'NR > 1 { printf "%g |u %d |i %d\n",$3,$1,$2 }' ratings.csv >! ratings.vw
+unzip -d /scratch/ /scratch/ml-20m.zip
+awk -F',' 'NR > 1 { printf "%g |u %d |i %d\n",$3,$1,$2 }' "$prefix"ratings.csv >! "$prefix"ratings.vw
 python separate.py
 
 vw -b 18 -q ui --rank 10 --l2 0.001 \
